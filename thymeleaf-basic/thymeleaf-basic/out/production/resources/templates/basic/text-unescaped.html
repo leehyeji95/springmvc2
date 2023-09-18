@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>text vs utext</h1>
+<ul>
+  <li>th:text 사용 <span th:text="${data}"></span></li>
+  <li>th:utext 사용 <span th:utext="${data}"></span></li>
+</ul>
+
+<h1><span th:inline="none">[[...]] vs [(...)]</span></h1>
+<ul>
+    <!-- &lt &gt 로 변경, 사용자가 임의로 작성한 태그가 있을 수 있기 때문에 기본적으로 이스케이프 처리해줘야한다. 의도적인 경우 unescaped 처리-->
+    <li><span th:inline="none">[[...]] = </span>[[${data}]]</li>
+    <li><span th:inline="none">[(...)] = </span>[(${data})]</li>
+</ul>
+
+</body>
+</html>

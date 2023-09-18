@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>컨텐츠에 데이터 출력하기</h1>
+<ul>
+<!--  BasicController 의 Hello Spring 값이 <span> 안에 출력된다-->
+  <li>th:text 사용 <span th:text="${data}"></span></li>
+  <li>컨텐츠 안에서 직접 출력하기 = [[${data}]]</li>
+<!--    Thymeleaf는 HttpEntity 이스케이프 제공한다 ! < 를 &lt 로 변경해서 제공-->
+</ul>
+
+</body>
+</html>
