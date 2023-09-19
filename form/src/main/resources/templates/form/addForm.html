@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>상품 등록 폼</h2>
+    </div>
+
+<!--    th:object="${item}" 은 빈 Item (addForm(model)) 로 넘어온 것이고 <form> 에서 사용할 객체를 지정한다. -->
+    <form action="item.html" th:action th:object="${item}" method="post">
+        <div>
+            <label for="itemName">상품명</label>
+<!--            itemName 중복 없애고 id, name, value 속성을 자동으로 생성해준다.
+                (생략가능하지만 label for 에서 id 를 보기때문에 id는 남겨둠)
+                th:object item 으로 사용하기 위해
+                th:field="${item.itemName}" 또는 선택 변수 식 "*{itemName}" 으로 사용가능.
+                사용하기 좋은 이유 : 프런트 오류 나서 보기 쉬움
+-->
+            <input type="text" id="itemName" name="itemName" th:field="*{itemName}" class="form-control" placeholder="이름을 입력하세요">
+        </div>
+        <div>
+            <label for="price">가격</label>
+            <input type="text" id="price" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요">
+        </div>
+        <div>
+            <label for="quantity">수량</label>
+            <input type="text" id="quantity" th:field="*{quantity}" class="form-control" placeholder="수량을 입력하세요">
+        </div>
+
+        <hr class="my-4">
+
+<!--        single checkbox -->
+        <div>판매 여부</div>
+        <div>
+            <div class="form-check">
+<!--                form 에서 값이 안넘어오는 것을 막기 위해 히든필드 추가 name 동일하게 -->
+<!--                <input type="checkbox" id="open" name="open" class="form-check-input">-->
+<!--                <input type="hidden" name="_open" value="on"/>-->
+<!--                Thymeleaf 사용하면 hidden 필드 자동으로 생성해준다 ** -->
+                <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
+                <label for="open" class="form-check-label">판매 오픈</label>
+            </div>
+        </div>
+
+        <!-- multi checkbox -->
+        <div>
+            <div>등록 지역</div>
+            <!-- Model 에 등록된 "regions" 3가지 (서울/부산/제주) -->
+            <div th:each="region : ${regions}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${item.regions}" th:value="${region.key}" class="form-check-input">
+                <!-- label 의 텍스트를 눌러도 선택이 되기 때문에 thymeleaf 가 반복을 돌면서 동적으로 자동 id(유니크해야함) 생성해준다. th:field 값 참고해서 ...  -->
+                <label th:for="${#ids.prev('regions')}" th:text="${region.value}" class="form-check-label">서울</label>
+            </div>
+        </div>
+
+        <div>
+            <div>상품 종류</div>
+            <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
+                <!-- ItemType getter 추가 (property 접근법) -->
+                <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label">BOOK</label>
+            </div>
+        </div>
+
+        <!-- SELECT -->
+        <div>
+            <div>배송 방식</div>
+            <select th:field="*{deliveryCode}" class="form-select">
+                <option value="">==배송 방식 선택==</option>
+                <option th:each="deliverCode : ${deliveryCodes}"
+                        th:value="${deliverCode.code}" th:text="${deliverCode.displayName}">FAST</option>
+            </select>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">상품 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/form/items}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>
